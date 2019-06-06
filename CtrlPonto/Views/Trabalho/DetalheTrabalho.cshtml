@@ -22,7 +22,7 @@
                 <div class="row">
                     <div class="col-md-5">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 @Html.LabelFor(model => Model.Data, new { Class = "text-left" })
                                 @Html.TextBoxFor(model => Model.Data, new { Class = "date form-control input-sm" })
                                 @Html.ValidationMessageFor(model => model.Data, "", new { Class = "text-danger" })
@@ -30,7 +30,7 @@
                         </div>
                         <br />
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 @Html.LabelFor(model => Model.Jornada, new { Class = "text-left" })
                                 @Html.TextBoxFor(model => Model.Jornada.TimeOfDay, new { Class = "ponto form-control input-sm" })
                                 @Html.ValidationMessageFor(model => model.Jornada, "", new { Class = "text-danger" })
@@ -38,51 +38,54 @@
                         </div>
                     </div>
 
-                    <div class="col-xl-4 col-lg-4">
-                        <br />
-                        <div class="card card-stats mb-4 mb-xl-0">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col">
-                                        <h5 class="card-title text-uppercase text-muted mb-0">Horas Trabalhada</h5>
-                                        <span class="h2 font-weight-bold mb-0 text-primary mr-2">@Model.Saldo.ToString("HH:mm")</span>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
-                                            <i class="fas fa-chart-bar"></i>
+                    <div class="col-md-7">
+                        <div class="row">
+                            <div class="col-xl-7 col-lg-7">
+                                <br/>
+                                <div class="card card-stats mb-4 mb-xl-0">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col">
+                                                <h5 class="card-title text-uppercase text-muted mb-0">Horas Trabalhada</h5>
+                                                <span class="h2 font-weight-bold mb-0 text-primary mr-2">@Model.Saldo.ToString("HH:mm")</span>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                                                    <i class="fas fa-chart-bar"></i>
+                                                </div>
+                                            </div>
                                         </div>
+                                        <p class="mt-3 mb-0 text-muted text-sm">
+                                            <span class="text-nowrap">Baseado na jornada</span>
+                                        </p>
                                     </div>
                                 </div>
-                                <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span class="text-nowrap">Baseado na jornada</span>
-                                </p>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="col-xl-3 col-lg-4">
-                        <br />
-                        <div class="card card-stats mb-4 mb-xl-0">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col">
-                                        <h5 class="card-title text-uppercase text-muted mb-0">Saldo de hoje</h5>
-                                        <span class="h2 font-weight-bold mb-0 text-success mr-2">@Model.Saldo.ToString("HH:mm")</span>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
-                                            <i class="fas fa-chart-bar"></i>
+                            <div class="col-xl-5 col-lg-5">
+                                <br/>
+                                <div class="card card-stats mb-4 mb-xl-0">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col">
+                                                <h5 class="card-title text-uppercase text-muted mb-0">Saldo de hoje</h5>
+                                                <span class="h2 font-weight-bold mb-0 text-success mr-2">@Model.Saldo.ToString("HH:mm")</span>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                                                    <i class="fas fa-chart-bar"></i>
+                                                </div>
+                                            </div>
                                         </div>
+                                        <p class="mt-3 mb-0 text-muted text-sm">
+                                            <span class="text-nowrap">Baseado na jornada</span>
+                                        </p>
                                     </div>
                                 </div>
-                                <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span class="text-nowrap">Baseado na jornada</span>
-                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <br /><br />
 
                 <table class="table table-condensed table-striped">
