@@ -1,0 +1,96 @@
+﻿@model CtrlPonto.Models.Trabalho
+@{
+    ViewBag.Title = "Trabalho";
+    Layout = "~/views/Shared/_Layout.cshtml";
+}
+
+<br />
+
+<div class="container">
+
+    <div class="float-right">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Novo Dia
+        </button>
+    </div>
+
+    <br/><br/><br/>
+
+    <table class="table table-condensed table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Dia</th>
+                <th class="text-center">Jornada</th>
+                <th class="text-center">Saldo</th>
+                <th scope="col">&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (CtrlPonto.Models.Trabalho trabalho in @ViewBag.Trabalhos)
+        {
+            <tr>
+                <th>@trabalho.Data.ToString("dd/MM/yyyy")</th>
+                <td class="text-center">@trabalho.Jornada.ToString("HH:mm")</td>
+                <td class="text-center">@trabalho.Saldo.ToString("HH:mm")</td>
+                <td class="text-right">
+                    <button class="btn btn-xs btn-danger" type="button" onclick="MensagemConfirma('Ateção', 'Deseja apagar o dia de trabalho @trabalho.Data.ToString("MM/dd/yyyy")?', '@Url.Action("ApagarTrabalho", "Trabalho", new { id = trabalho.Id })')">Excluir</button>
+                    <a class="btn btn-xs btn-success" type="button" href="@Url.Action("DetalheTrabalho", "Trabalho", new { id = trabalho.Id })">Detalhes</a>
+                </td>
+            </tr>
+        }    
+        </tbody>
+    </table>
+
+    <br/><br/><br/>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Novo dia de Trabalho</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @using (Html.BeginForm("Index", "Trabalho", null, FormMethod.Post, new { Class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true)
+                    <div class="modal-body">
+                        <fieldset>
+                            <legend>Novo dia</legend>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => Model.Data, new { Class = "text-left" })
+                                    @Html.TextBoxFor(model => Model.Data, new { Class = "date form-control input-sm" })
+                                    @Html.ValidationMessageFor(model => model.Data, "", new { Class = "text-danger" })
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @Html.LabelFor(model => Model.Jornada, new { Class = "text-left" })
+                                    @Html.TextBoxFor(model => Model.Jornada.TimeOfDay, new { Class = "ponto form-control input-sm" })
+                                    @Html.ValidationMessageFor(model => model.Jornada, "", new { Class = "text-danger" })
+                                </div>
+                            </div>
+                            <br />
+                        </fieldset>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/Mascaras")
+}
