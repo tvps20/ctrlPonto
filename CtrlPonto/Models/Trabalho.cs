@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using CtrlPonto.Util;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq.Expressions;
 
 namespace CtrlPonto.Models
 {
@@ -23,10 +24,13 @@ namespace CtrlPonto.Models
 
         [Display(Name = "Jornada de Trabalho")]
         [Required(ErrorMessage = "A jornada deve ser informado.")]
-        public DateTime Jornada { get; set; }
+        public TimeSpan Jornada { get; set; }
 
         [Display(Name = "Saldo do dia")]
-        public DateTime Saldo { get; set; }
+        public TimeSpan Saldo { get; set; }
+
+        [Display(Name = "Horas Trabalhadas")]
+        public TimeSpan Horas { get; set; }
 
         public bool Ativo { get; set; }
 
@@ -34,8 +38,8 @@ namespace CtrlPonto.Models
         {
             this.Ativo = true;
             this.Data = DateTime.Now;
-            this.Saldo = new DateTime(1999, 01, 01, 00, 00, 00);
-            this.Jornada = new DateTime(1999, 01, 01, 08, 00, 00);
+            this.Saldo = new TimeSpan();
+            this.Jornada = new TimeSpan(08,00,00);
             this.Id = 1;
         }
     }

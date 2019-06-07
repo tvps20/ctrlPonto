@@ -13,9 +13,10 @@ namespace CtrlPonto.Migrations
                     {
                         id = c.Int(nullable: false, identity: true),
                         data = c.DateTime(nullable: false),
-                        Jornada = c.DateTime(nullable: false),
-                        Saldo = c.DateTime(nullable: false),
-                        Ativo = c.Boolean(nullable: false),
+                        jornada = c.Time(nullable: false),
+                        saldo = c.Time(nullable: false),
+                        horas = c.Time(nullable: false),
+                        ativo = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.id);
             
@@ -24,13 +25,13 @@ namespace CtrlPonto.Migrations
                 c => new
                     {
                         id = c.Int(nullable: false, identity: true),
-                        hora = c.DateTime(nullable: false),
+                        hora = c.Time(nullable: false),
                         tipo = c.String(nullable: false, maxLength: 30, unicode: false),
                         ativo = c.Boolean(nullable: false),
                         idTrabalho = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
-                .ForeignKey("dbo.trabalhos", t => t.idTrabalho)
+                .ForeignKey("dbo.trabalhos", t => t.idTrabalho, cascadeDelete: true)
                 .Index(t => t.idTrabalho);
             
         }

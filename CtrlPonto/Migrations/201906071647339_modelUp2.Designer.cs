@@ -5,13 +5,13 @@ namespace CtrlPonto.Migrations
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
-    public sealed partial class deleteAlter : IMigrationMetadata
+    public sealed partial class modelUp2 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(deleteAlter));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(modelUp2));
         
         string IMigrationMetadata.Id
         {
-            get { return "201906051925152_deleteAlter"; }
+            get { return "201906071647339_modelUp2"; }
         }
         
         string IMigrationMetadata.Source

@@ -5,13 +5,13 @@ namespace CtrlPonto.Migrations
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
-    public sealed partial class inicial : IMigrationMetadata
+    public sealed partial class chageTime : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(inicial));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(chageTime));
         
         string IMigrationMetadata.Id
         {
-            get { return "201906051906598_inicial"; }
+            get { return "201906071448307_chageTime"; }
         }
         
         string IMigrationMetadata.Source

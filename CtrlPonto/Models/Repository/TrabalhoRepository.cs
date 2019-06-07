@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using CtrlPonto.Models.Domain;
+using Microsoft.Ajax.Utilities;
 
 namespace CtrlPonto.Models.Repository
 {
@@ -40,7 +41,18 @@ namespace CtrlPonto.Models.Repository
         {
             using (var db = new ContextoDB())
             {
-                db.Trabalhos.Add(trabalho);
+                var trabalhoBd = recuperarPeloId(trabalho.Id);
+
+                if (trabalhoBd == null)
+                {
+                    db.Trabalhos.Add(trabalho);
+                }
+                else
+                {
+                    db.Trabalhos.Attach(trabalho);
+                    db.Entry(trabalho).State = EntityState.Modified;
+                }
+
                 return db.SaveChanges();               
             }
         }

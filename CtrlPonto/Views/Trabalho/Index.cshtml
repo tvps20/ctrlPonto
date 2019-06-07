@@ -31,8 +31,8 @@
         {
             <tr>
                 <th>@trabalho.Data.ToString("dd/MM/yyyy")</th>
-                <td class="text-center">@trabalho.Jornada.ToString("HH:mm")</td>
-                <td class="text-center">@trabalho.Saldo.ToString("HH:mm")</td>
+                <td class="text-center">@trabalho.Jornada.ToString(@"hh\:mm")</td>
+                <td class="text-center">@trabalho.Saldo.ToString(@"hh\:mm")</td>
                 <td class="text-right">
                     <button class="btn btn-xs btn-danger" type="button" onclick="MensagemConfirma('Ateção', 'Deseja apagar o dia de trabalho @trabalho.Data.ToString("MM/dd/yyyy")?', '@Url.Action("ApagarTrabalho", "Trabalho", new { id = trabalho.Id })')">Excluir</button>
                     <a class="btn btn-xs btn-success" type="button" href="@Url.Action("DetalheTrabalho", "Trabalho", new { id = trabalho.Id })">Detalhes</a>
@@ -61,6 +61,12 @@
                     <div class="modal-body">
                         <fieldset>
                             <legend>Novo dia</legend>
+                            
+                            <div class="row" hidden>
+                                <div class="col-md-12">
+                                    @Html.TextBoxFor(model => model.Id, new { Class = "ponto form-control input-sm" })
+                                </div>
+                            </div>
 
                             <div class="row">
                                 <div class="col-md-12">
@@ -73,7 +79,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     @Html.LabelFor(model => Model.Jornada, new { Class = "text-left" })
-                                    @Html.TextBoxFor(model => Model.Jornada.TimeOfDay, new { Class = "ponto form-control input-sm" })
+                                    @Html.TextBoxFor(model => Model.Jornada, new { Class = "ponto form-control input-sm" })
                                     @Html.ValidationMessageFor(model => model.Jornada, "", new { Class = "text-danger" })
                                 </div>
                             </div>

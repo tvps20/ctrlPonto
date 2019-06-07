@@ -17,7 +17,7 @@ namespace CtrlPonto.Models.Maps
             Property(x => x.Id).HasColumnName("id").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
             Property(x => x.Hora).HasColumnName("hora").IsRequired();
-            Property(x => x.Tipo).HasColumnName("tipo").HasColumnType("varchar").HasMaxLength(30).IsRequired();
+            Property(x => x.Tipo).HasColumnName("tipo").IsRequired();
             Property(x => x.Ativo).HasColumnName("ativo").IsRequired();
 
             Property(x => x.IdTrabalho).HasColumnName("idTrabalho").IsRequired();

@@ -132,17 +132,26 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201906051906598_inicial.cs" />
-    <Compile Include="Migrations\201906051906598_inicial.Designer.cs">
-      <DependentUpon>201906051906598_inicial.cs</DependentUpon>
+    <Compile Include="Migrations\201906071147167_inicial.cs" />
+    <Compile Include="Migrations\201906071147167_inicial.Designer.cs">
+      <DependentUpon>201906071147167_inicial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201906051925152_deleteAlter.cs" />
-    <Compile Include="Migrations\201906051925152_deleteAlter.Designer.cs">
-      <DependentUpon>201906051925152_deleteAlter.cs</DependentUpon>
+    <Compile Include="Migrations\201906071336492_modelUp.cs" />
+    <Compile Include="Migrations\201906071336492_modelUp.Designer.cs">
+      <DependentUpon>201906071336492_modelUp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906071448307_chageTime.cs" />
+    <Compile Include="Migrations\201906071448307_chageTime.Designer.cs">
+      <DependentUpon>201906071448307_chageTime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906071647339_modelUp2.cs" />
+    <Compile Include="Migrations\201906071647339_modelUp2.Designer.cs">
+      <DependentUpon>201906071647339_modelUp2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Domain\ContextoDB.cs" />
     <Compile Include="Models\Domain\Erros.cs" />
+    <Compile Include="Models\Enuns\EnumExtensions.cs" />
     <Compile Include="Models\Enuns\TipoPonto.cs" />
     <Compile Include="Models\Maps\PontoMap.cs" />
     <Compile Include="Models\Maps\TrabalhoMap.cs" />
@@ -250,11 +259,17 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201906051906598_inicial.resx">
-      <DependentUpon>201906051906598_inicial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201906071147167_inicial.resx">
+      <DependentUpon>201906071147167_inicial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906051925152_deleteAlter.resx">
-      <DependentUpon>201906051925152_deleteAlter.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201906071336492_modelUp.resx">
+      <DependentUpon>201906071336492_modelUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906071448307_chageTime.resx">
+      <DependentUpon>201906071448307_chageTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906071647339_modelUp2.resx">
+      <DependentUpon>201906071647339_modelUp2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

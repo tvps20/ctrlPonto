@@ -21,19 +21,24 @@
                 <br />
                 <div class="row">
                     <div class="col-md-5">
+                        
+                        <div class="row" hidden>
+                            <div class="col-md-12">
+                                @Html.TextBoxFor(model => Model.Id, new { Class = "ponto form-control input-sm" })
+                            </div>
+                        </div> 
                         <div class="row">
                             <div class="col-md-12">
                                 @Html.LabelFor(model => Model.Data, new { Class = "text-left" })
-                                @Html.TextBoxFor(model => Model.Data, new { Class = "date form-control input-sm" })
-                                @Html.ValidationMessageFor(model => model.Data, "", new { Class = "text-danger" })
+                                @Html.TextBoxFor(model => Model.Data, new { Class = "date form-control input-sm", @disabled = "disabled" })
                             </div>
                         </div>
-                        <br />
+                        <br/>
                         <div class="row">
                             <div class="col-md-12">
-                                @Html.LabelFor(model => Model.Jornada, new { Class = "text-left" })
-                                @Html.TextBoxFor(model => Model.Jornada.TimeOfDay, new { Class = "ponto form-control input-sm" })
-                                @Html.ValidationMessageFor(model => model.Jornada, "", new { Class = "text-danger" })
+                                @Html.LabelFor(model => Model.Jornada, new {Class = "text-left"})
+                                @Html.TextBoxFor(model => Model.Jornada, new {Class = "ponto form-control input-sm"})
+                                @Html.ValidationMessageFor(model => model.Jornada, "", new {Class = "text-danger"})
                             </div>
                         </div>
                     </div>
@@ -47,7 +52,7 @@
                                         <div class="row">
                                             <div class="col">
                                                 <h5 class="card-title text-uppercase text-muted mb-0">Horas Trabalhada</h5>
-                                                <span class="h2 font-weight-bold mb-0 text-primary mr-2">@Model.Saldo.ToString("HH:mm")</span>
+                                                <span class="h2 font-weight-bold mb-0 text-primary mr-2">@Model.Horas.ToString(@"hh\:mm")</span>
                                             </div>
                                             <div class="col-auto">
                                                 <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
@@ -69,7 +74,7 @@
                                         <div class="row">
                                             <div class="col">
                                                 <h5 class="card-title text-uppercase text-muted mb-0">Saldo de hoje</h5>
-                                                <span class="h2 font-weight-bold mb-0 text-success mr-2">@Model.Saldo.ToString("HH:mm")</span>
+                                                <span class="h2 font-weight-bold mb-0  mr-2 @(Model.Saldo.Hours > 0 ? "text-success": "text-danger")">@Model.Saldo.ToString(@"hh\:mm")</span>
                                             </div>
                                             <div class="col-auto">
                                                 <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
@@ -97,11 +102,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (CtrlPonto.Models.Ponto ponto in pontos)
+                    <tbody>
+                        @foreach (var ponto in pontos)
                         {
-                            <tr>
-                                <th>@ponto.Hora.ToString("HH:mm")</th>
-                                <td class="text-center">@ponto.Tipo.ToString()</td>
+                            <tr>                                
+                                <td>@ponto.Hora.ToString("HH:mm")</td>
+                                <td class="text-center">@ponto.Tipo</td>
                                 <td class="text-right">
                                     <button class="btn btn-xs btn-danger" type="button" onclick="MensagemConfirma('Ateção', 'Deseja apagar o ponto @ponto.Hora.ToString("HH:mm")?', '@Url.Action("ApagarPonto", "Ponto", new { id = ponto.Id, idTrabalho = trabalho.Id })')">Excluir</button>
                                 </td>
@@ -119,9 +125,9 @@
             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Adicionar</button>
             <button type="submit" class="btn btn-primary">Salvar</button>
         </div>
-
-        <br /><br />
     }
+
+    <br /><br />
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -133,46 +139,48 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                @using (Html.BeginForm("AdicionarPonto", "Ponto", new { Class = "form-horizontal", modelList = new List<Trabalho>{Model}}, FormMethod.Post, null))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true)
-                    <div class="modal-body">
-                        <fieldset>
-                            <legend>Ponto do dia</legend>
+                <div class="col-md-12">
+                    @using (Html.BeginForm("AdicionarPonto", "Ponto", new { Class = "form-horizontal", modelList = new List<Trabalho> { Model } }, FormMethod.Post, null))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        <div class="modal-body">
+                            <fieldset>
+                                <legend>Ponto do dia</legend>
 
-                            <div class="row" hidden>
-                                <div class="col-md-12">
-                                    @Html.TextBoxFor(model => model.Id, new { Class = "ponto form-control input-sm" })
+                                <div class="row" hidden>
+                                    <div class="col-md-12">
+                                        @Html.TextBoxFor(model => model.Id, new { Class = "ponto form-control input-sm" })
+                                    </div>
                                 </div>
-                            </div>                                               
 
-                            <div class="row">
-                                <div class="col-md-12">
-                                    @Html.LabelFor(model => pontoControle.Hora, new { Class = "text-left" })
-                                    @Html.TextBoxFor(model => pontoControle.Hora.TimeOfDay, new { Class = "ponto form-control input-sm" })
-                                    @Html.ValidationMessageFor(model => pontoControle.Hora, "", new { Class = "text-danger" })
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        @Html.LabelFor(model => pontoControle.Hora, new { Class = "text-left" })
+                                        @Html.TextBoxFor(model => pontoControle.Hora.TimeOfDay, new { Class = "ponto form-control input-sm" })
+                                        @Html.ValidationMessageFor(model => pontoControle.Hora, "", new { Class = "text-danger" })
+                                    </div>
                                 </div>
-                            </div>
-                            <br />
-                            <div class="row">
-                                <div class="col-md-12">
-                                    @Html.LabelFor(pontoDia => pontoControle.Tipo, new { Class = "text-left" })
-                                    <select id="TipoPonto" name="TipoPonto" class="form-control input-sm">
-                                        <option value="Entrada">Entrada</option>
-                                        <option value="Saida">Saída</option>
-                                    </select>
-                                    @Html.ValidationMessageFor(pontoDia => pontoControle.Tipo, "", new { Class = "text-danger" })
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        @Html.LabelFor(pontoDia => pontoControle.Tipo, new { Class = "text-left" })
+                                        <select id="TipoPonto" name="TipoPonto" class="form-control input-sm" disabled>
+                                            <option value="Entrada">@pontoControle.Tipo</option>
+                                           
+                                        </select>
+                                        @Html.ValidationMessageFor(pontoDia => pontoControle.Tipo, "", new { Class = "text-danger" })
+                                    </div>
                                 </div>
-                            </div>
-                            <br />
-                        </fieldset>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-primary">Salvar</button>
-                    </div>
-                }
+                                <br />
+                            </fieldset>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
     </div>

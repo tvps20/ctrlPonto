@@ -20,6 +20,14 @@ namespace CtrlPonto.Models.Repository
             }
         }
 
+        public static Ponto recuperarPeloId(int id)
+        {
+            using (var db = new ContextoDB())
+            {
+                return db.Pontos.Find(id);
+            }
+        }
+
         public static int salvar(Ponto ponto)
         {
             using (var db = new ContextoDB())

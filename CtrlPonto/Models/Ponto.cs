@@ -10,6 +10,7 @@ namespace CtrlPonto.Models
 {
     public class Ponto
     {
+        public static bool isEntrada;
         public int Id { get; set; }
 
         [Display(Name = "Hora")]
@@ -27,7 +28,28 @@ namespace CtrlPonto.Models
         {
             this.Hora = DateTime.Now;
             this.Id = 1;
-            this.Tipo = Enuns.TipoPonto.ENTRADA.ToString();
+            this.Ativo = true;
+            this.iniciaTipo();
+
+        }
+
+        public void atualizaPonto()
+        {
+            if (!isEntrada)
+            {
+                this.Tipo = EnumExtensions.TipoPontoToDescriptionString(TipoPonto.ENTRADA);
+                isEntrada = true;
+            }
+            else
+            {
+                this.Tipo = EnumExtensions.TipoPontoToDescriptionString(TipoPonto.SAIDA);
+                isEntrada = false;
+            }       
+        }
+
+        public void iniciaTipo()
+        {
+            this.Tipo = !isEntrada ? EnumExtensions.TipoPontoToDescriptionString(TipoPonto.ENTRADA) : EnumExtensions.TipoPontoToDescriptionString(TipoPonto.SAIDA);
         }
     }
 }
