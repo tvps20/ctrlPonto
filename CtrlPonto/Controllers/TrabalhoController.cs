@@ -9,16 +9,16 @@ using System.Web.Query.Dynamic;
 using CtrlPonto.Models;
 using CtrlPonto.Models.Enuns;
 using CtrlPonto.Models.Repository;
+using System.Web.WebPages;
 
 namespace CtrlPonto.Controllers
 {
     public class TrabalhoController : Controller
     {
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(int pagina = 1)
         {
-            List<Trabalho> trabalhos = TrabalhoRepository.listaAll();
-            ViewBag.Trabalhos = trabalhos.OrderByDescending(x => x.Data).ToList();
+            ViewBag.Trabalhos = TrabalhoRepository.listaAll(5, pagina);
             Trabalho trabalho = new Trabalho();
             Ponto.isEntrada = false;
             return View(trabalho);
@@ -31,7 +31,7 @@ namespace CtrlPonto.Controllers
             {
                 if (ModelState.IsValid == false){ return Redirect("Trabalho/Index"); }
 
-                Trabalho trabalho = TrabalhoRepository.recuperarPeloId(Int32.Parse(form["Id"]));
+                var trabalho = TrabalhoRepository.recuperarPeloId(Int32.Parse(form["Id"]));
 
                 if (trabalho == null)
                 {

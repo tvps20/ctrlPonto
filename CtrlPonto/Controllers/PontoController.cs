@@ -18,6 +18,7 @@ namespace CtrlPonto.Controllers
             novoPonto.IdTrabalho = Int32.Parse(form["Id"]);
             novoPonto.Hora = DateTime.Parse(form["pontoControle.Hora.TimeOfDay"]);
             novoPonto.atualizaPonto();       
+            novoPonto.Tipo = form["TipoPonto"];
 
             try
             {

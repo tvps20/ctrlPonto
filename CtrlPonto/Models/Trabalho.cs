@@ -27,7 +27,14 @@ namespace CtrlPonto.Models
         public TimeSpan Jornada { get; set; }
 
         [Display(Name = "Saldo do dia")]
-        public TimeSpan Saldo { get; set; }
+        [NotMapped]
+        public TimeSpan Saldo
+        {
+            get { return TimeSpan.FromTicks(SaldoTicks);}
+            set { SaldoTicks = value.Ticks; }
+        }
+
+        public Int64 SaldoTicks { get; set; }
 
         [Display(Name = "Horas Trabalhadas")]
         public TimeSpan Horas { get; set; }

@@ -13,9 +13,9 @@ namespace CtrlPonto.Migrations
                     {
                         id = c.Int(nullable: false, identity: true),
                         data = c.DateTime(nullable: false),
-                        jornada = c.Time(nullable: false),
-                        saldo = c.Time(nullable: false),
-                        horas = c.Time(nullable: false),
+                        jornada = c.DateTime(nullable: false),
+                        saldo = c.DateTime(),
+                        horas = c.DateTime(),
                         ativo = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.id);
@@ -25,8 +25,8 @@ namespace CtrlPonto.Migrations
                 c => new
                     {
                         id = c.Int(nullable: false, identity: true),
-                        hora = c.Time(nullable: false),
-                        tipo = c.String(nullable: false, maxLength: 30, unicode: false),
+                        hora = c.DateTime(nullable: false),
+                        tipo = c.String(nullable: false),
                         ativo = c.Boolean(nullable: false),
                         idTrabalho = c.Int(nullable: false),
                     })

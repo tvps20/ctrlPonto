@@ -11,7 +11,7 @@ namespace CtrlPonto.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201906071147167_inicial"; }
+            get { return "201906101348484_inicial"; }
         }
         
         string IMigrationMetadata.Source

@@ -19,7 +19,7 @@ namespace CtrlPonto.Models.Maps
 
             Property(x => x.Data).HasColumnName("data").IsRequired();
             Property(x => x.Jornada).HasColumnName("jornada");
-            Property(x => x.Saldo).HasColumnName("saldo");
+            Property(x => x.SaldoTicks).HasColumnName("saldoTicks");
             Property(x => x.Horas).HasColumnName("horas");
             Property(x => x.Ativo).HasColumnName("ativo").IsRequired();
         }

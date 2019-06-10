@@ -1,8 +1,14 @@
 ﻿@model CtrlPonto.Models.Trabalho
+@using PagedList
+@using PagedList.Mvc;
+@using CtrlPonto.Models;
 @{
     ViewBag.Title = "Trabalho";
     Layout = "~/views/Shared/_Layout.cshtml";
+    IPagedList<Trabalho> Trabalhos = ViewBag.Trabalhos;
 }
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css"/>
 
 <br />
 
@@ -15,7 +21,7 @@
         </button>
     </div>
 
-    <br/><br/><br/>
+    <br /><br /><br />
 
     <table class="table table-condensed table-striped">
         <thead>
@@ -27,22 +33,27 @@
             </tr>
         </thead>
         <tbody>
-        @foreach (CtrlPonto.Models.Trabalho trabalho in @ViewBag.Trabalhos)
-        {
-            <tr>
-                <th>@trabalho.Data.ToString("dd/MM/yyyy")</th>
-                <td class="text-center">@trabalho.Jornada.ToString(@"hh\:mm")</td>
-                <td class="text-center">@trabalho.Saldo.ToString(@"hh\:mm")</td>
-                <td class="text-right">
-                    <button class="btn btn-xs btn-danger" type="button" onclick="MensagemConfirma('Ateção', 'Deseja apagar o dia de trabalho @trabalho.Data.ToString("MM/dd/yyyy")?', '@Url.Action("ApagarTrabalho", "Trabalho", new { id = trabalho.Id })')">Excluir</button>
-                    <a class="btn btn-xs btn-success" type="button" href="@Url.Action("DetalheTrabalho", "Trabalho", new { id = trabalho.Id })">Detalhes</a>
-                </td>
-            </tr>
-        }    
+            @foreach (CtrlPonto.Models.Trabalho trabalho in @Trabalhos.ToList())
+            {
+                <tr>
+                    <th>@trabalho.Data.ToString("dd/MM/yyyy")</th>
+                    <td class="text-center">@trabalho.Jornada.ToString(@"hh\:mm")</td>
+                    <td class="text-center @(trabalho.Saldo.Hours >= 0 ? "text-success": "text-danger")">@(trabalho.Saldo.Hours >= 0 ? "" : "-") @trabalho.Saldo.ToString(@"hh\:mm")</td>
+                    <td class="text-right">
+                        <button class="btn btn-xs btn-danger" type="button" onclick="MensagemConfirma('Ateção', 'Deseja apagar o dia de trabalho @trabalho.Data.ToString("MM/dd/yyyy")?', '@Url.Action("ApagarTrabalho", "Trabalho", new { id = trabalho.Id })')">Excluir</button>
+                        <a class="btn btn-xs btn-success" type="button" href="@Url.Action("DetalheTrabalho", "Trabalho", new { id = trabalho.Id })">Detalhes</a>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
+    
+    <br />
 
-    <br/><br/><br/>
+    Pagina @Trabalhos.PageNumber de @Trabalhos.PageCount
+    @Html.PagedListPager(@Trabalhos, page => Url.Action("Index", new { pagina = page }))
+
+    <br/><br /><br />
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -61,7 +72,7 @@
                     <div class="modal-body">
                         <fieldset>
                             <legend>Novo dia</legend>
-                            
+
                             <div class="row" hidden>
                                 <div class="col-md-12">
                                     @Html.TextBoxFor(model => model.Id, new { Class = "ponto form-control input-sm" })

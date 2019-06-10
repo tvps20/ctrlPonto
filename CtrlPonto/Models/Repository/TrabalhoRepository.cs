@@ -1,20 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Web;
 using CtrlPonto.Models.Domain;
-using Microsoft.Ajax.Utilities;
+using PagedList;
 
 namespace CtrlPonto.Models.Repository
 {
     public class TrabalhoRepository
     {
-        public static List<Trabalho> listaAll()
+        public static IPagedList<Trabalho> listaAll(int tamanhoPagina, int? numeroPagina)
         {
             using (var db = new ContextoDB())
             {
-                List<Trabalho> trabalhos = db.Trabalhos.SqlQuery("SELECT * FROM trabalhos").ToList();
+                int pagina = numeroPagina ?? 1;
+
+                IPagedList<Trabalho> trabalhos = db.Trabalhos.SqlQuery("SELECT * FROM trabalhos").OrderByDescending(x => x.Data).ToPagedList(pagina, tamanhoPagina);
+            
                 return trabalhos;
             }           
         }

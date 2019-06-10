@@ -5,13 +5,13 @@ namespace CtrlPonto.Migrations
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
-    public sealed partial class modelUp : IMigrationMetadata
+    public sealed partial class inicial : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(modelUp));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(inicial));
         
         string IMigrationMetadata.Id
         {
-            get { return "201906071336492_modelUp"; }
+            get { return "201906101442200_inicial"; }
         }
         
         string IMigrationMetadata.Source

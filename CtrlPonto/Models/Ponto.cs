@@ -30,7 +30,7 @@ namespace CtrlPonto.Models
             this.Id = 1;
             this.Ativo = true;
             this.iniciaTipo();
-
+            this.atualizaPonto();
         }
 
         public void atualizaPonto()

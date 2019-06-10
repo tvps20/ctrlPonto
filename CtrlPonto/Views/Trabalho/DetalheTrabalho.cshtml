@@ -74,7 +74,7 @@
                                         <div class="row">
                                             <div class="col">
                                                 <h5 class="card-title text-uppercase text-muted mb-0">Saldo de hoje</h5>
-                                                <span class="h2 font-weight-bold mb-0  mr-2 @(Model.Saldo.Hours > 0 ? "text-success": "text-danger")">@Model.Saldo.ToString(@"hh\:mm")</span>
+                                                <span class="h2 font-weight-bold mb-0  mr-2 @(Model.Saldo.Hours >= 0 ? "text-success": "text-danger")">@(Model.Saldo.Hours >= 0 ? "" : "-") @Model.Saldo.ToString(@"hh\:mm")</span>
                                             </div>
                                             <div class="col-auto">
                                                 <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
@@ -165,9 +165,15 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         @Html.LabelFor(pontoDia => pontoControle.Tipo, new { Class = "text-left" })
-                                        <select id="TipoPonto" name="TipoPonto" class="form-control input-sm" disabled>
-                                            <option value="Entrada">@pontoControle.Tipo</option>
-                                           
+                                        <select id="TipoPonto" name="TipoPonto" class="form-control input-sm">
+                                            <option value="Entrada" @if(pontoControle.Tipo.Equals("Entrada"))
+                                                                    {
+                                                                        @:selected=""
+                                                                    }>Entrada</option>
+                                            <option value="Saída" @if(pontoControle.Tipo.Equals("Saída"))
+                                                                  {
+                                                                      @:selected=""
+                                                                  }>Saída</option>
                                         </select>
                                         @Html.ValidationMessageFor(pontoDia => pontoControle.Tipo, "", new { Class = "text-danger" })
                                     </div>
