@@ -26,9 +26,9 @@
     <table class="table table-condensed table-striped">
         <thead>
             <tr>
-                <th scope="col">Dia</th>
-                <th class="text-center">Jornada</th>
-                <th class="text-center">Saldo</th>
+                <th scope="col">@Html.ActionLink("Dia", "Index", new { sortOrder = "Dia", pagina = @Trabalhos.PageNumber })</th>
+                <th class="text-center">@Html.ActionLink("Jornada", "Index", new { sortOrder = "Jornada", pagina = @Trabalhos.PageNumber })</th>
+                <th class="text-center">@Html.ActionLink("Saldo", "Index", new { sortOrder = "Saldo", pagina = @Trabalhos.PageNumber })</th>
                 <th scope="col">&nbsp;</th>
             </tr>
         </thead>
@@ -69,38 +69,46 @@
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
-                    <div class="modal-body">
-                        <fieldset>
-                            <legend>Novo dia</legend>
+                    <div class="container-fluid">
+                        <div class="container">
+                            <div class="modal-body">
+                                <fieldset>
+                                    <legend align="center">Trabalho do dia</legend>
+                                    <br/>
+                                    <div class="row" style="margin-left: 50px;">
+                                        <div class="col-sm-12" >
+                                            <div class="row" hidden>
+                                                <div class="col-md-12">
+                                                    @Html.TextBoxFor(model => model.Id, new { Class = "ponto form-control input-sm" })
+                                                </div>
+                                            </div>
 
-                            <div class="row" hidden>
-                                <div class="col-md-12">
-                                    @Html.TextBoxFor(model => model.Id, new { Class = "ponto form-control input-sm" })
-                                </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    @Html.LabelFor(model => Model.Data, new { Class = "text-left" })
+                                                    @Html.TextBoxFor(model => Model.Data, new { Class = "date form-control input-sm" })
+                                                    @Html.ValidationMessageFor(model => model.Data, "", new { Class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    @Html.LabelFor(model => Model.Jornada, new { Class = "text-left" })
+                                                    @Html.TextBoxFor(model => Model.Jornada, new { Class = "ponto form-control input-sm" })
+                                                    @Html.ValidationMessageFor(model => model.Jornada, "", new { Class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                </fieldset>
                             </div>
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    @Html.LabelFor(model => Model.Data, new { Class = "text-left" })
-                                    @Html.TextBoxFor(model => Model.Data, new { Class = "date form-control input-sm" })
-                                    @Html.ValidationMessageFor(model => model.Data, "", new { Class = "text-danger" })
-                                </div>
-                            </div>
-                            <br />
-                            <div class="row">
-                                <div class="col-md-12">
-                                    @Html.LabelFor(model => Model.Jornada, new { Class = "text-left" })
-                                    @Html.TextBoxFor(model => Model.Jornada, new { Class = "ponto form-control input-sm" })
-                                    @Html.ValidationMessageFor(model => model.Jornada, "", new { Class = "text-danger" })
-                                </div>
-                            </div>
-                            <br />
-                        </fieldset>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-primary">Salvar</button>
-                    </div>
+                    </div>          
                 }
             </div>
         </div>

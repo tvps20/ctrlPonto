@@ -10,15 +10,11 @@ namespace CtrlPonto.Models.Repository
 {
     public class TrabalhoRepository
     {
-        public static IPagedList<Trabalho> listaAll(int tamanhoPagina, int? numeroPagina)
+        public static List<Trabalho> listaAll()
         {
             using (var db = new ContextoDB())
             {
-                int pagina = numeroPagina ?? 1;
-
-                IPagedList<Trabalho> trabalhos = db.Trabalhos.SqlQuery("SELECT * FROM trabalhos").OrderByDescending(x => x.Data).ToPagedList(pagina, tamanhoPagina);
-            
-                return trabalhos;
+                return db.Trabalhos.SqlQuery("SELECT * FROM trabalhos").ToList();
             }           
         }
 

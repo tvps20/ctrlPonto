@@ -10,15 +10,37 @@ using CtrlPonto.Models;
 using CtrlPonto.Models.Enuns;
 using CtrlPonto.Models.Repository;
 using System.Web.WebPages;
+using PagedList;
 
 namespace CtrlPonto.Controllers
 {
     public class TrabalhoController : Controller
     {
         [HttpGet]
-        public ActionResult Index(int pagina = 1)
+        public ActionResult Index(int? pagina, string sortOrder = "Dia")
         {
-            ViewBag.Trabalhos = TrabalhoRepository.listaAll(5, pagina);
+            int numeroPagina = pagina ?? 1;
+            int tamanhoPagina = 5;
+
+            List<Trabalho> trabalhos = TrabalhoRepository.listaAll();
+
+            switch (sortOrder)
+            {
+                case "Dia":
+                    trabalhos = trabalhos.OrderByDescending(t => t.Data).ToList();
+                    break;
+                case "Jornada":
+                    trabalhos = trabalhos.OrderBy(t => t.Jornada).ToList();
+                    break;
+                case "Saldo":
+                    trabalhos = trabalhos.OrderBy(t => t.Saldo).ToList();
+                    break;
+                default:
+                    trabalhos = trabalhos.OrderByDescending(t => t.Data).ToList();
+                    break;
+            }
+
+            ViewBag.Trabalhos = trabalhos.ToPagedList(numeroPagina, tamanhoPagina);
             Trabalho trabalho = new Trabalho();
             Ponto.isEntrada = false;
             return View(trabalho);

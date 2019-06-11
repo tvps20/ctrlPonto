@@ -146,36 +146,42 @@
                         @Html.ValidationSummary(true)
                         <div class="modal-body">
                             <fieldset>
-                                <legend>Ponto do dia</legend>
+                                <legend align="center">Ponto do dia</legend>
+                                
+                                <br/>
+                                
+                                <div class="row" style="margin-left: 50px;">
+                                    <div class="col-sm-12" >
+                                        <div class="row" hidden>
+                                            <div class="col-md-12">
+                                                @Html.TextBoxFor(model => model.Id, new { Class = "ponto form-control input-sm" })
+                                            </div>
+                                        </div>
 
-                                <div class="row" hidden>
-                                    <div class="col-md-12">
-                                        @Html.TextBoxFor(model => model.Id, new { Class = "ponto form-control input-sm" })
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        @Html.LabelFor(model => pontoControle.Hora, new { Class = "text-left" })
-                                        @Html.TextBoxFor(model => pontoControle.Hora.TimeOfDay, new { Class = "ponto form-control input-sm" })
-                                        @Html.ValidationMessageFor(model => pontoControle.Hora, "", new { Class = "text-danger" })
-                                    </div>
-                                </div>
-                                <br />
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        @Html.LabelFor(pontoDia => pontoControle.Tipo, new { Class = "text-left" })
-                                        <select id="TipoPonto" name="TipoPonto" class="form-control input-sm">
-                                            <option value="Entrada" @if(pontoControle.Tipo.Equals("Entrada"))
-                                                                    {
-                                                                        @:selected=""
-                                                                    }>Entrada</option>
-                                            <option value="Saída" @if(pontoControle.Tipo.Equals("Saída"))
-                                                                  {
-                                                                      @:selected=""
-                                                                  }>Saída</option>
-                                        </select>
-                                        @Html.ValidationMessageFor(pontoDia => pontoControle.Tipo, "", new { Class = "text-danger" })
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                @Html.LabelFor(model => pontoControle.Hora, new { Class = "text-left" })
+                                                @Html.TextBoxFor(model => pontoControle.Hora.TimeOfDay, new { Class = "ponto form-control input-sm" })
+                                                @Html.ValidationMessageFor(model => pontoControle.Hora, "", new { Class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                @Html.LabelFor(pontoDia => pontoControle.Tipo, new { Class = "text-left" })
+                                                <select id="TipoPonto" name="TipoPonto" class="form-control input-sm">
+                                                    <option value="Entrada" @if(pontoControle.Tipo.Equals("Entrada"))
+                                                                            {
+                                                                                @:selected=""
+                                                                            }>Entrada</option>
+                                                    <option value="Saída" @if(pontoControle.Tipo.Equals("Saída"))
+                                                                          {
+                                                                              @:selected=""
+                                                                          }>Saída</option>
+                                                </select>
+                                                @Html.ValidationMessageFor(pontoDia => pontoControle.Tipo, "", new { Class = "text-danger" })
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <br />
