@@ -86,14 +86,16 @@ namespace CtrlPonto.Controllers
             }
         }
 
-        public ActionResult ValidaData(DateTime Data, Trabalho trabalho)         
+        public ActionResult ValidaData(string Data)
         {
-            var dataFormatada = Data.ToString("dd/MM/yyyy");
-            var data = TrabalhoRepository.recuperarPelaData(dataFormatada);
 
-            if (data != null)
+            DateTime dataFormatada = DateTime.Parse(Data, new CultureInfo("pt-BR"));
+                
+            var trabalho = TrabalhoRepository.recuperarPelaData(dataFormatada);
+
+            if (trabalho != null)
             {
-                return Json(string.Format("A data '{0}' já foi cadastrada.", dataFormatada), JsonRequestBehavior.AllowGet);
+                return Json(string.Format("A data '{0}' já foi cadastrada.", dataFormatada.ToString("dd/MM/yyyy")), JsonRequestBehavior.AllowGet);
             }
 
             return Json(true, JsonRequestBehavior.AllowGet);

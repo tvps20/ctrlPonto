@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Data.Objects;
 using System.Linq;
 using CtrlPonto.Models.Domain;
 using PagedList;
@@ -28,13 +30,11 @@ namespace CtrlPonto.Models.Repository
             }
         }
 
-        public static Trabalho recuperarPelaData(string data)
+        public static Trabalho recuperarPelaData(DateTime data)
         {
             using (var db = new ContextoDB())
-            {              
-                Trabalho trabalho = db.Trabalhos.SqlQuery("SELECT * FROM trabalhos where data = '" + data + "'").FirstOrDefault();
-                return trabalho;
-
+            {
+                return db.Trabalhos.Where(c=> EntityFunctions.TruncateTime(c.Data).Value == data.Date).FirstOrDefault();  
             }
         }
 
