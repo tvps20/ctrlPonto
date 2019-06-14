@@ -4,18 +4,22 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                @Html.ActionLink("Home", "Index", "Home", null, new {@class = "nav-link" })
+                @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })
             </li>
             <li class="nav-item">
-                @Html.ActionLink("Trabalho", "Index", "Trabalho", null, new {@class = "nav-link"})
+                @Html.ActionLink("Trabalho", "Index", "Trabalho", null, new { @class = "nav-link" })
             </li>
             <li class="nav-item">
-                @Html.ActionLink("Sobre", "About", "Home", null, new {@class = "nav-link" })
+                @Html.ActionLink("Relatórios", "Index", "Relatorio", null, new { @class = "nav-link" })
             </li>
-        </ul>  
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
-        </form>
+            <li class="nav-item">
+                @Html.ActionLink("Sobre", "About", "Home", null, new { @class = "nav-link" })
+            </li>
+        </ul>
+        @using (Html.BeginForm("Index", "Trabalho", null, FormMethod.Get, new { Class = "form-inline my-2 my-lg-0" }))
+        {
+            <input class="form-control mr-sm-2" type="search" name="searchString" placeholder="Buscar" aria-label="Search">
+            <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Buscar</button>
+        }
     </div>
 </nav>

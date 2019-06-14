@@ -1,0 +1,145 @@
+﻿@model PagedList.IPagedList<CtrlPonto.Models.Trabalho>
+@using CtrlPonto.Models
+@using PagedList
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Trabalho job = new Trabalho();
+}
+
+<br /><br /><br />
+
+<div class="row">
+    <div class="col-md-7">
+        <div class="row">
+            <div class="col-xl-7 col-lg-7">
+                <br />
+                <div class="card card-stats mb-4 mb-xl-0">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-muted mb-0">Horas Trabalhadas</h5>
+                                <span class="h2 font-weight-bold mb-0 text-primary mr-2">@ViewBag.Horas.ToString(@"hh\:mm")</span>
+                            </div>
+                            <div class="col-auto">
+                                <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                                    <i class="fas fa-chart-bar"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="mt-3 mb-0 text-muted text-sm">
+                            <span class="text-nowrap">Baseado na jornada</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-5 col-lg-5">
+                <br />
+                <div class="card card-stats mb-4 mb-xl-0">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-muted mb-0">Saldo Total</h5>
+                                <span class="h2 font-weight-bold mb-0  mr-2 @(ViewBag.Saldo.Hours >= 0 ? "text-success": "text-danger")">@(ViewBag.Saldo.Hours >= 0 ? "" : "-") @ViewBag.Saldo.ToString(@"hh\:mm")</span>
+                            </div>
+                            <div class="col-auto">
+                                <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                                    <i class="fas fa-chart-bar"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="mt-3 mb-0 text-muted text-sm">
+                            <span class="text-nowrap">Baseado na jornada</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<br /><br /><br />
+
+<div class="container">
+    <div class="row">
+        @using (Html.BeginForm("Index", "Relatorio", null, FormMethod.Get, new { Class = "form-inline" }))
+        {
+
+            <div class="md-form">
+                <div class="container">
+                    <label>Data Inicial:</label>
+                    <input class="form-control" name="dataInicial" id="dataInicio" value="@(ViewBag.DataInicial.ToString("dd/MM/yyyy"))" width="276" />
+                </div>
+            </div>
+            <div class="md-form">
+                <label>Data Final:</label>
+                <div class="container">
+                    <input class="form-control" name="dataFinal" id="dataFinal" value="@(ViewBag.DataFinal.ToString("dd/MM/yyyy"))" width="276" />
+                </div>
+            </div>
+            <div class="md-form">
+                <br />
+                <div class="container">
+                    <button class="btn btn-success my-2 my-sm-0" type="submit">Buscar</button>
+                </div>
+            </div>
+        }
+        <div class="md-form">
+            <br />
+            <div class="container">
+                <button class="btn btn-primary my-2 my-sm-0" type="submit">Exportar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br /><br /><br />
+
+<table class="table table-condensed table-striped">
+    <thead>
+        <tr>
+            <th scope="col">@Html.ActionLink("Dia", "Index", "Relatorio", new { sortOrder = "Dia", pagina = @Model.PageNumber })</th>
+            <th class="text-center">@Html.ActionLink("Jornada", "Index", new { sortOrder = "Jornada", pagina = @Model.PageNumber })</th>
+            <th class="text-center">@Html.ActionLink("Saldo", "Index", new { sortOrder = "Saldo", pagina = @Model.PageNumber })</th>
+            @*<th scope="col">&nbsp;</th>*@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (CtrlPonto.Models.Trabalho trabalho in @Model.ToList())
+        {
+            <tr>
+                <th>@trabalho.Data.ToString("dd/MM/yyyy")</th>
+                <td class="text-center">@trabalho.Jornada.ToString(@"hh\:mm")</td>
+                <td class="text-center @(trabalho.Saldo.Hours >= 0 ? "text-success": "text-danger")">@(trabalho.Saldo.Hours >= 0 ? "" : "-") @trabalho.Saldo.ToString(@"hh\:mm")</td>
+                @*<td class="text-right">
+                    <button class="btn btn-xs btn-danger" type="button" onclick="MensagemConfirma('Ateção', 'Deseja apagar o dia de trabalho @trabalho.Data.ToString("MM/dd/yyyy")?', '@Url.Action("ApagarTrabalho", "Trabalho", new { id = trabalho.Id })')">Excluir</button>
+                    <a class="btn btn-xs btn-success" type="button" href="@Url.Action("DetalheTrabalho", "Trabalho", new { id = trabalho.Id })">Detalhes</a>
+                </td>*@
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+
+Pagina @Model.PageNumber de @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", "Relatorio", new { pagina = page, dataInicial = @ViewBag.DataInicial.ToString("dd/MM/yyyy"), dataFinal = @ViewBag.DataFinal.ToString("dd/MM/yyyy") }))
+
+<br /><br /><br />
+
+<script>
+    $('#dataInicio').datepicker({
+        format: 'dd/mm/yyyy',
+        uiLibrary: 'bootstrap4',
+
+    });
+
+    $('#dataFinal').datepicker({
+        format: 'dd/mm/yyyy',
+        uiLibrary: 'bootstrap4'
+    });
+</script>

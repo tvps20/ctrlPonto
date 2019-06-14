@@ -17,12 +17,19 @@ namespace CtrlPonto.Controllers
     public class TrabalhoController : Controller
     {
         [HttpGet]
-        public ActionResult Index(int? pagina, string sortOrder = "Dia")
+        public ActionResult Index(int? pagina, string sortOrder = "Dia", string searchString = null)
         {
             int numeroPagina = pagina ?? 1;
             int tamanhoPagina = 5;
 
             List<Trabalho> trabalhos = TrabalhoRepository.listaAll();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                trabalhos = trabalhos.Where(t => t.Data.ToString().Contains(searchString)
+                                               || t.Jornada.ToString().Contains(searchString)
+                                               || t.Saldo.ToString().Contains(searchString)).ToList();
+            }
 
             switch (sortOrder)
             {
