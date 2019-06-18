@@ -150,6 +150,7 @@
     <Compile Include="Models\Enuns\TipoPonto.cs" />
     <Compile Include="Models\Maps\PontoMap.cs" />
     <Compile Include="Models\Maps\TrabalhoMap.cs" />
+    <Compile Include="Models\Relatorio.cs" />
     <Compile Include="Models\Repository\PontoRepository.cs" />
     <Compile Include="Models\Repository\TrabalhoRepository.cs" />
     <Compile Include="Models\Trabalho.cs" />

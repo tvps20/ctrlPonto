@@ -45,8 +45,8 @@ namespace CtrlPonto.Models
         {
             this.Ativo = true;
             this.Data = DateTime.Now;
-            this.Saldo = new TimeSpan();
             this.Jornada = new TimeSpan(08,00,00);
+            this.Saldo = (new TimeSpan()).Subtract(this.Jornada);
             this.Id = 1;
         }
     }

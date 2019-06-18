@@ -1,12 +1,11 @@
-﻿@model PagedList.IPagedList<CtrlPonto.Models.Trabalho>
-@using CtrlPonto.Models
-@using PagedList
+﻿@model CtrlPonto.Models.Relatorio
+@using PagedList;
 @using PagedList.Mvc;
-
+@using CtrlPonto.Models;
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    Trabalho job = new Trabalho();
+    IPagedList<Trabalho> TrabalhosPage = ViewBag.TrabalhosPaged;
 }
 
 <br /><br /><br />
@@ -21,7 +20,7 @@
                         <div class="row">
                             <div class="col">
                                 <h5 class="card-title text-uppercase text-muted mb-0">Horas Trabalhadas</h5>
-                                <span class="h2 font-weight-bold mb-0 text-primary mr-2">@ViewBag.Horas.ToString(@"hh\:mm")</span>
+                                <span class="h2 font-weight-bold mb-0 text-primary mr-2">@Model.HorasFormatada</span>
                             </div>
                             <div class="col-auto">
                                 <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
@@ -43,7 +42,7 @@
                         <div class="row">
                             <div class="col">
                                 <h5 class="card-title text-uppercase text-muted mb-0">Saldo Total</h5>
-                                <span class="h2 font-weight-bold mb-0  mr-2 @(ViewBag.Saldo.Hours >= 0 ? "text-success": "text-danger")">@(ViewBag.Saldo.Hours >= 0 ? "" : "-") @ViewBag.Saldo.ToString(@"hh\:mm")</span>
+                                <span class="h2 font-weight-bold mb-0  mr-2 @(Model.Saldo.Hours >= 0 ? "text-success": "text-danger")">@Model.SaldoFormatado</span>
                             </div>
                             <div class="col-auto">
                                 <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
@@ -72,13 +71,13 @@
             <div class="md-form">
                 <div class="container">
                     <label>Data Inicial:</label>
-                    <input class="form-control" name="dataInicial" id="dataInicio" value="@(ViewBag.DataInicial.ToString("dd/MM/yyyy"))" width="276" />
+                    <input class="form-control" name="dataInicial" id="dataInicio" value="@(Model.DataInicial.ToString("dd/MM/yyyy"))" width="276" />
                 </div>
             </div>
             <div class="md-form">
                 <label>Data Final:</label>
                 <div class="container">
-                    <input class="form-control" name="dataFinal" id="dataFinal" value="@(ViewBag.DataFinal.ToString("dd/MM/yyyy"))" width="276" />
+                    <input class="form-control" name="dataFinal" id="dataFinal" value="@(Model.DataFinal.ToString("dd/MM/yyyy"))" width="276" />
                 </div>
             </div>
             <div class="md-form">
@@ -91,7 +90,29 @@
         <div class="md-form">
             <br />
             <div class="container">
-                <button class="btn btn-primary my-2 my-sm-0" type="submit">Exportar</button>
+                @using (Html.BeginForm("ExportToCsv", "Relatorio", FormMethod.Post))
+                {
+                    @Html.HiddenFor(saldo => Model.SaldoFormatado);
+                    @Html.HiddenFor(saldo => Model.HorasFormatada);
+                    @Html.HiddenFor(saldo => Model.DataInicial);
+                    @Html.HiddenFor(saldo => Model.DataFinal);
+
+
+                    for (int i = 0; i < Model.Trabalhos.Count; i++)
+                    {
+                        <div hidden>
+                            @Html.TextBoxFor(t => Model.Trabalhos[i].Ativo);
+                            @Html.TextBoxFor(t => Model.Trabalhos[i].Data);
+                            @Html.TextBoxFor(t => Model.Trabalhos[i].Horas);
+                            @Html.TextBoxFor(t => Model.Trabalhos[i].Id);
+                            @Html.TextBoxFor(t => Model.Trabalhos[i].Jornada);
+                            @Html.TextBoxFor(t => Model.Trabalhos[i].Saldo);
+                            @Html.TextBoxFor(t => Model.Trabalhos[i].SaldoTicks);
+                        </div>
+                    }
+
+                    <button class="btn btn-primary my-2 my-sm-0" type="submit">Exportar</button>
+                }
             </div>
         </div>
     </div>
@@ -102,23 +123,23 @@
 <table class="table table-condensed table-striped">
     <thead>
         <tr>
-            <th scope="col">@Html.ActionLink("Dia", "Index", "Relatorio", new { sortOrder = "Dia", pagina = @Model.PageNumber })</th>
-            <th class="text-center">@Html.ActionLink("Jornada", "Index", new { sortOrder = "Jornada", pagina = @Model.PageNumber })</th>
-            <th class="text-center">@Html.ActionLink("Saldo", "Index", new { sortOrder = "Saldo", pagina = @Model.PageNumber })</th>
+            <th scope="col">@Html.ActionLink("Dia", "Index", "Relatorio", new { sortOrder = "Dia", pagina = @TrabalhosPage.PageNumber })</th>
+            <th class="text-center">@Html.ActionLink("Jornada", "Index", new { sortOrder = "Jornada", pagina = @TrabalhosPage.PageNumber })</th>
+            <th class="text-center">@Html.ActionLink("Saldo", "Index", new { sortOrder = "Saldo", pagina = @TrabalhosPage.PageNumber })</th>
             @*<th scope="col">&nbsp;</th>*@
         </tr>
     </thead>
     <tbody>
-        @foreach (CtrlPonto.Models.Trabalho trabalho in @Model.ToList())
+        @foreach (CtrlPonto.Models.Trabalho trabalho in @TrabalhosPage.ToList())
         {
             <tr>
                 <th>@trabalho.Data.ToString("dd/MM/yyyy")</th>
                 <td class="text-center">@trabalho.Jornada.ToString(@"hh\:mm")</td>
                 <td class="text-center @(trabalho.Saldo.Hours >= 0 ? "text-success": "text-danger")">@(trabalho.Saldo.Hours >= 0 ? "" : "-") @trabalho.Saldo.ToString(@"hh\:mm")</td>
                 @*<td class="text-right">
-                    <button class="btn btn-xs btn-danger" type="button" onclick="MensagemConfirma('Ateção', 'Deseja apagar o dia de trabalho @trabalho.Data.ToString("MM/dd/yyyy")?', '@Url.Action("ApagarTrabalho", "Trabalho", new { id = trabalho.Id })')">Excluir</button>
-                    <a class="btn btn-xs btn-success" type="button" href="@Url.Action("DetalheTrabalho", "Trabalho", new { id = trabalho.Id })">Detalhes</a>
-                </td>*@
+                        <button class="btn btn-xs btn-danger" type="button" onclick="MensagemConfirma('Ateção', 'Deseja apagar o dia de trabalho @trabalho.Data.ToString("MM/dd/yyyy")?', '@Url.Action("ApagarTrabalho", "Trabalho", new { id = trabalho.Id })')">Excluir</button>
+                        <a class="btn btn-xs btn-success" type="button" href="@Url.Action("DetalheTrabalho", "Trabalho", new { id = trabalho.Id })">Detalhes</a>
+                    </td>*@
             </tr>
         }
     </tbody>
@@ -126,8 +147,8 @@
 
 <br />
 
-Pagina @Model.PageNumber de @Model.PageCount
-@Html.PagedListPager(Model, page => Url.Action("Index", "Relatorio", new { pagina = page, dataInicial = @ViewBag.DataInicial.ToString("dd/MM/yyyy"), dataFinal = @ViewBag.DataFinal.ToString("dd/MM/yyyy") }))
+Pagina @TrabalhosPage.PageNumber de @TrabalhosPage.PageCount
+@Html.PagedListPager(@TrabalhosPage, page => Url.Action("Index", "Relatorio", new { pagina = page, dataInicial = @Model.DataInicial.ToString("dd/MM/yyyy"), dataFinal = @Model.DataFinal.ToString("dd/MM/yyyy") }))
 
 <br /><br /><br />
 
