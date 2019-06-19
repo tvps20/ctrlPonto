@@ -10,18 +10,20 @@ namespace CtrlPonto.Controllers
     {
         public ActionResult Index()
         {
+            ViewBag.active = "Home";
             return View();
         }
 
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
-
+            ViewBag.active = "Sobre";
             return View();
         }
 
-        public ActionResult Menu()
+        public ActionResult Menu(string active)
         {
+            ViewBag.active = active;
             return PartialView();
         }
     }

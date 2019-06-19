@@ -48,6 +48,7 @@ namespace CtrlPonto.Controllers
             }
 
             ViewBag.Trabalhos = trabalhos.ToPagedList(numeroPagina, tamanhoPagina);
+            ViewBag.active = "Trabalho";
             Trabalho trabalho = new Trabalho();
             Ponto.isEntrada = false;
             return View(trabalho);
@@ -101,10 +102,11 @@ namespace CtrlPonto.Controllers
                 Trabalho trabalho = TrabalhoRepository.recuperarPeloId(id);
                 List<Ponto> pontos = PontoRepository.listAllByTrabalho(id);
                 ViewBag.Pontos = pontos.OrderByDescending(x => x.Hora).ToList();
+                ViewBag.active = "Trabalho";
                 ViewBag.Ponto = new Ponto();
 
-                trabalho.Horas = calculaHorasTrabalho(pontos);
-                trabalho.Saldo = trabalho.Horas.Subtract(trabalho.Jornada);
+                trabalho.HorasTrabalho = calculaHorasTrabalho(pontos);
+                trabalho.Saldo = trabalho.HorasTrabalho.Subtract(trabalho.Jornada);
                 TrabalhoRepository.salvar(trabalho);
 
                 return View(trabalho);

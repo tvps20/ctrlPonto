@@ -3,16 +3,16 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <li class="nav-item @(ViewBag.active == "Home" ? "active" : "")">
                 @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })
             </li>
-            <li class="nav-item">
+            <li class="nav-item @(ViewBag.active == "Trabalho" ? "active" : "")">
                 @Html.ActionLink("Trabalho", "Index", "Trabalho", null, new { @class = "nav-link" })
             </li>
-            <li class="nav-item">
+            <li class="nav-item @(ViewBag.active == "Relatorio" ? "active" : "")">
                 @Html.ActionLink("Relatórios", "Index", "Relatorio", null, new { @class = "nav-link" })
             </li>
-            <li class="nav-item">
+            <li class="nav-item @(ViewBag.active == "Sobre" ? "active" : "")">
                 @Html.ActionLink("Sobre", "About", "Home", null, new { @class = "nav-link" })
             </li>
         </ul>

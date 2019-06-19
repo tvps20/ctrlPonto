@@ -37,7 +37,7 @@ namespace CtrlPonto.Models
         public Int64 SaldoTicks { get; set; }
 
         [Display(Name = "Horas Trabalhadas")]
-        public TimeSpan Horas { get; set; }
+        public TimeSpan HorasTrabalho { get; set; }
 
         public bool Ativo { get; set; }
 

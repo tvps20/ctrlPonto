@@ -143,6 +143,14 @@
     <Compile Include="Migrations\201906101442200_inicial.Designer.cs">
       <DependentUpon>201906101442200_inicial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906191643290_modelUp.cs" />
+    <Compile Include="Migrations\201906191643290_modelUp.Designer.cs">
+      <DependentUpon>201906191643290_modelUp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906191820129_modelUp2.cs" />
+    <Compile Include="Migrations\201906191820129_modelUp2.Designer.cs">
+      <DependentUpon>201906191820129_modelUp2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Domain\ContextoDB.cs" />
     <Compile Include="Models\Domain\Erros.cs" />
@@ -259,6 +267,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201906101442200_inicial.resx">
       <DependentUpon>201906101442200_inicial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906191643290_modelUp.resx">
+      <DependentUpon>201906191643290_modelUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906191820129_modelUp2.resx">
+      <DependentUpon>201906191820129_modelUp2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

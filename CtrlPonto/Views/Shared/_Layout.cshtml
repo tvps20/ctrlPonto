@@ -16,7 +16,7 @@
 </head>
 <body style="padding: 0px;">
     <div class="div-menu">       
-        @Html.Action("Menu", "Home")       
+        @Html.Action("Menu", "Home", new { active = ViewBag.active})       
     </div>
     
     <div class="container body-content">

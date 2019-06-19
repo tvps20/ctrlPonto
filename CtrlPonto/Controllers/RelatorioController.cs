@@ -64,6 +64,7 @@ namespace CtrlPonto.Controllers
 
             relatorio.Trabalhos = trabalhos;
             ViewBag.TrabalhosPaged = trabalhosPaged;
+            ViewBag.active = "Relatorio";
             return View(relatorio);
         }
 
@@ -99,7 +100,7 @@ namespace CtrlPonto.Controllers
         {
             TimeSpan horasTrabalhadas = new TimeSpan(0, 0, 0);
 
-            trabalhos.ForEach(x => horasTrabalhadas = horasTrabalhadas.Add(x.Horas));     
+            trabalhos.ForEach(x => horasTrabalhadas = horasTrabalhadas.Add(x.HorasTrabalho));     
 
             return horasTrabalhadas;
         }
