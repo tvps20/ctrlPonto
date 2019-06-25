@@ -36,7 +36,7 @@
                 <tr>
                     <th>@trabalho.Data.ToString("dd/MM/yyyy")</th>
                     <td class="text-center">@trabalho.Jornada.ToString(@"hh\:mm")</td>
-                    <td class="text-center @(trabalho.Saldo.Hours >= 0 ? "text-success": "text-danger")">@(trabalho.Saldo.Hours >= 0 ? "" : "-") @trabalho.Saldo.ToString(@"hh\:mm")</td>
+                    <td class="text-center @(trabalho.Saldo.TotalHours >= 0 ? "text-success": "text-danger")">@(trabalho.Saldo.TotalHours >= 0 ? "" : "-") @trabalho.Saldo.ToString(@"hh\:mm")</td>
                     <td class="text-right">
                         <button class="btn btn-xs btn-danger" type="button" onclick="MensagemConfirma('Ateção', 'Deseja apagar o dia de trabalho @trabalho.Data.ToString("MM/dd/yyyy")?', '@Url.Action("ApagarTrabalho", "Trabalho", new { id = trabalho.Id })')">Excluir</button>
                         <a class="btn btn-xs btn-success" type="button" href="@Url.Action("DetalheTrabalho", "Trabalho", new { id = trabalho.Id })">Detalhes</a>

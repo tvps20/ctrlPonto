@@ -152,6 +152,7 @@
       <DependentUpon>201906191820129_modelUp2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Config.cs" />
     <Compile Include="Models\Domain\ContextoDB.cs" />
     <Compile Include="Models\Domain\Erros.cs" />
     <Compile Include="Models\Enuns\EnumExtensions.cs" />

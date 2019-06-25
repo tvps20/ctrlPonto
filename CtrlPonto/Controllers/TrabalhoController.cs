@@ -100,13 +100,13 @@ namespace CtrlPonto.Controllers
             try
             {             
                 Trabalho trabalho = TrabalhoRepository.recuperarPeloId(id);
-                List<Ponto> pontos = PontoRepository.listAllByTrabalho(id);
-                ViewBag.Pontos = pontos.OrderByDescending(x => x.Hora).ToList();
+                List<Ponto> pontos = PontoRepository.listAllByTrabalho(id).OrderBy(x => x.Hora).ToList();
+                ViewBag.Pontos = pontos;
                 ViewBag.active = "Trabalho";
                 ViewBag.Ponto = new Ponto();
 
-                trabalho.HorasTrabalho = calculaHorasTrabalho(pontos);
-                trabalho.Saldo = trabalho.HorasTrabalho.Subtract(trabalho.Jornada);
+                trabalho.HorasTrabalho = this.calculaHorasTrabalho(pontos);
+                trabalho.Saldo = this.calculaSaldo(trabalho);
                 TrabalhoRepository.salvar(trabalho);
 
                 return View(trabalho);
@@ -134,22 +134,36 @@ namespace CtrlPonto.Controllers
 
         private TimeSpan calculaHorasTrabalho(List<Ponto> listPontos)
         {
-            TimeSpan saldo = new TimeSpan();
+            TimeSpan horasTrabalhadas = new TimeSpan();
             TimeSpan entrada = new TimeSpan();
+            TimeSpan saida = new TimeSpan();
 
             foreach (Ponto ponto in listPontos)
             {
                 if (ponto.Tipo == EnumExtensions.TipoPontoToDescriptionString(TipoPonto.ENTRADA))
                 {
                     entrada = ponto.Hora.TimeOfDay;
+                    continue;
                 }
-                else
-                {
-                    saldo += entrada - ponto.Hora.TimeOfDay;
-                }
+                else { saida = ponto.Hora.TimeOfDay; }
+
+                horasTrabalhadas += saida - entrada;
             }
 
-            return -saldo;
+            return horasTrabalhadas;
+        }
+
+        private TimeSpan calculaSaldo(Trabalho trabalho)
+        {
+            Config config = Config.getInstance();
+            TimeSpan saldo = trabalho.HorasTrabalho.Subtract(trabalho.Jornada);
+
+            if(saldo <= config.ToleranciaHoraExtra && saldo >= -config.ToleranciaTrabalho)
+            {
+                saldo = new TimeSpan(00, 00, 00);
+            }
+
+            return saldo;
         }
     }
 }
