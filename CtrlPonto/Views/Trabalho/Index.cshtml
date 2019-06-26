@@ -12,11 +12,53 @@
 
 <div class="container">
 
-    <div class="float-right">
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-            Novo Dia
-        </button>
+    <div class="row">
+        <div class="col-md-10">
+            <div class="row">
+                <div class="col-xl-5 col-lg-5">
+                    <div class="card card-stats mb-4 mb-xl-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Horas Trabalhadas</h5>
+                                    <span class="h2 font-weight-bold mb-0 text-primary mr-2">@(ViewBag.Horas)</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                                        <i class="fas fa-chart-bar"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-5 col-lg-5">
+                    <div class="card card-stats mb-4 mb-xl-0">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Saldo de Horas</h5>
+                                    <span class="h2 font-weight-bold mb-0  mr-2 @(ViewBag.Saldo.TotalHours >= 0 ? "text-success": "text-danger")">@ViewBag.SaldoFormatado</span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                                        <i class="fas fa-chart-bar"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2">   
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                Novo Dia
+            </button>
+        </div>
     </div>
 
     <br /><br /><br />
@@ -45,13 +87,13 @@
             }
         </tbody>
     </table>
-    
+
     <br />
 
     Pagina @Trabalhos.PageNumber de @Trabalhos.PageCount
     @Html.PagedListPager(@Trabalhos, page => Url.Action("Index", new { pagina = page }))
 
-    <br/><br /><br />
+    <br /><br /><br />
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -72,9 +114,9 @@
                             <div class="modal-body">
                                 <fieldset>
                                     <legend align="center">Trabalho do dia</legend>
-                                    <br/>
+                                    <br />
                                     <div class="row" style="margin-left: 50px;">
-                                        <div class="col-sm-12" >
+                                        <div class="col-sm-12">
                                             <div class="row" hidden>
                                                 <div class="col-md-12">
                                                     @Html.TextBoxFor(model => model.Id, new { Class = "ponto form-control input-sm" })
@@ -106,12 +148,11 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-primary">Salvar</button>
-                    </div>          
+                    </div>
                 }
             </div>
         </div>
     </div>
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

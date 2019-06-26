@@ -16,13 +16,13 @@ namespace CtrlPonto.Controllers
         {
             Ponto novoPonto = new Ponto();
             novoPonto.IdTrabalho = Int32.Parse(form["Id"]);
-            novoPonto.Hora = DateTime.Parse(form["pontoControle.Hora.TimeOfDay"]);
-            novoPonto.atualizaPonto();       
+            novoPonto.Hora = DateTime.Parse(form["pontoControle.Hora.TimeOfDay"]);    
             novoPonto.Tipo = form["TipoPonto"];
 
             try
             {
                 PontoRepository.salvar(novoPonto);
+                Ponto.isEntrada = Ponto.isEntrada ? false : true;
                 return RedirectToAction("DetalheTrabalho", "Trabalho", new { id = novoPonto.IdTrabalho }).Mensagem("Ponto Adicionado com Sucesso!!!");
             }
             catch (Exception e)
@@ -38,8 +38,8 @@ namespace CtrlPonto.Controllers
             try
             {
                 Ponto pontoBd = PontoRepository.recuperarPeloId(id);
-                Ponto.isEntrada = pontoBd.Tipo.Equals(EnumExtensions.TipoPontoToDescriptionString(TipoPonto.SAIDA));
                 PontoRepository.excluirPeloId(id);
+                Ponto.isEntrada = pontoBd.Tipo.Equals(EnumExtensions.TipoPontoToDescriptionString(TipoPonto.ENTRADA)) ? true : false;
                 return RedirectToAction("DetalheTrabalho", "Trabalho", new { id = idTrabalho }).Mensagem("Ponto Apagado com Sucesso!!!"); ;
             }
             catch (Exception e)

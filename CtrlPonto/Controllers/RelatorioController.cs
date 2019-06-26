@@ -39,10 +39,10 @@ namespace CtrlPonto.Controllers
 
             trabalhos = trabalhos.Where(t => t.Data.Date >= _dataInicial.Date && t.Data.Date <= _dataFinal.Date).ToList();
 
-            relatorio.Horas = this.calculaHorasTrabalhadas(trabalhos);
-            relatorio.Saldo = this.calculaSaldo(trabalhos);
-            relatorio.HorasFormatada = this.formataHora(relatorio.Horas);
-            relatorio.SaldoFormatado = this.formataHora(relatorio.Saldo);
+            relatorio.Horas = DataUtil.calculaHorasTrabalhadas(trabalhos);
+            relatorio.Saldo = DataUtil.calculaSaldo(trabalhos);
+            relatorio.HorasFormatada = DataUtil.formataHora(relatorio.Horas);
+            relatorio.SaldoFormatado = DataUtil.formataHora(relatorio.Saldo);
 
             switch (sortOrder)
             {
@@ -89,61 +89,11 @@ namespace CtrlPonto.Controllers
 
             sw.WriteLine();           
             sw.WriteLine("Horas Trabalhadas; \"{0}\"", HorasFormatada);
-            sw.WriteLine("Jornada Total; \"{0}\"", this.formataHora(this.calculaJornada(Trabalhos)));
+            sw.WriteLine("Jornada Total; \"{0}\"", DataUtil.formataHora(DataUtil.calculaJornada(Trabalhos)));
             sw.WriteLine("Saldo Total; \"{0}\"", SaldoFormatado);
 
             Response.Write(sw.ToString());
             Response.End();
-        }
-
-        private TimeSpan calculaHorasTrabalhadas(List<Trabalho> trabalhos)
-        {
-            TimeSpan horasTrabalhadas = new TimeSpan(0, 0, 0);
-
-            trabalhos.ForEach(x => horasTrabalhadas = horasTrabalhadas.Add(x.HorasTrabalho));     
-
-            return horasTrabalhadas;
-        }
-
-        private TimeSpan calculaSaldo(List<Trabalho> trabalhos)
-        {
-            TimeSpan saldo = new TimeSpan(0, 0, 0);
-
-            trabalhos.ForEach(x => 
-                saldo = saldo.Add(x.Saldo)
-            );
-
-            return saldo;
-        }
-
-        private TimeSpan calculaJornada(List<Trabalho> trabalhos)
-        {
-            TimeSpan jornada = new TimeSpan(0, 0, 0);
-
-            trabalhos.ForEach(x =>
-                jornada = jornada.Add(x.Jornada)
-            );
-
-            return jornada;
-        }
-
-        private string formataHora(TimeSpan hora)
-        {
-            string horaFormatada;
-
-            if (hora.TotalHours != 0 && hora.TotalMinutes != 0)
-            {
-                horaFormatada = (hora.Days * 24 + hora.Hours).ToString("D2");
-                horaFormatada += ":";
-                horaFormatada += (hora.Minutes > 0 ? hora.Minutes : -hora.Minutes).ToString("D2");
-
-            } else
-            {
-                horaFormatada = "00:00";
-            }
-
-            return horaFormatada;
-        }
-
+        } 
     }
 }

@@ -29,22 +29,39 @@ namespace CtrlPonto.Models
             this.Hora = DateTime.Now;
             this.Id = 1;
             this.Ativo = true;
+            isEntrada = true;
             this.iniciaTipo();
-            this.atualizaPonto();
         }
 
         public void atualizaPonto()
         {
-            if (!isEntrada)
+            if (isEntrada)
             {
                 this.Tipo = EnumExtensions.TipoPontoToDescriptionString(TipoPonto.ENTRADA);
-                isEntrada = true;
             }
             else
             {
                 this.Tipo = EnumExtensions.TipoPontoToDescriptionString(TipoPonto.SAIDA);
-                isEntrada = false;
             }       
+        }
+
+        public static void atualizaEntrada(Ponto ponto)
+        {
+            if(ponto != null)
+            {
+                if (ponto.Tipo.Equals(EnumExtensions.TipoPontoToDescriptionString(TipoPonto.ENTRADA)))
+                {
+                    isEntrada = false;
+                }
+                else
+                {
+                    isEntrada = true;
+                }
+            } else
+            {
+                isEntrada = true;
+            }
+            
         }
 
         public void iniciaTipo()

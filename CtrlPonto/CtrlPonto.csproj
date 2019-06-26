@@ -153,6 +153,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Config.cs" />
+    <Compile Include="Models\DataUtil.cs" />
     <Compile Include="Models\Domain\ContextoDB.cs" />
     <Compile Include="Models\Domain\Erros.cs" />
     <Compile Include="Models\Enuns\EnumExtensions.cs" />

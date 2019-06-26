@@ -49,6 +49,9 @@ namespace CtrlPonto.Controllers
 
             ViewBag.Trabalhos = trabalhos.ToPagedList(numeroPagina, tamanhoPagina);
             ViewBag.active = "Trabalho";
+            ViewBag.SaldoFormatado = DataUtil.formataHora(DataUtil.calculaSaldo(trabalhos.ToPagedList(numeroPagina, tamanhoPagina).ToList()));
+            ViewBag.Saldo = DataUtil.calculaSaldo(trabalhos.ToPagedList(numeroPagina, tamanhoPagina).ToList());
+            ViewBag.Horas = DataUtil.formataHora(DataUtil.calculaHorasTrabalhadas(trabalhos.ToPagedList(numeroPagina, tamanhoPagina).ToList()));
             Trabalho trabalho = new Trabalho();
             Ponto.isEntrada = false;
             return View(trabalho);
@@ -98,15 +101,18 @@ namespace CtrlPonto.Controllers
         public ActionResult DetalheTrabalho(int id)
         {
             try
-            {             
+            {
                 Trabalho trabalho = TrabalhoRepository.recuperarPeloId(id);
                 List<Ponto> pontos = PontoRepository.listAllByTrabalho(id).OrderBy(x => x.Hora).ToList();
+                Ponto ponto = new Ponto();
                 ViewBag.Pontos = pontos;
                 ViewBag.active = "Trabalho";
-                ViewBag.Ponto = new Ponto();
+                ViewBag.Ponto = ponto;
 
-                trabalho.HorasTrabalho = this.calculaHorasTrabalho(pontos);
-                trabalho.Saldo = this.calculaSaldo(trabalho);
+                Ponto.atualizaEntrada(pontos.Count > 0 ? pontos[pontos.Count-1] : null);
+                ponto.atualizaPonto();
+                trabalho.HorasTrabalho = DataUtil.calculaHorasTrabalho(pontos);
+                trabalho.Saldo = DataUtil.calculaSaldo(trabalho);
                 TrabalhoRepository.salvar(trabalho);
 
                 return View(trabalho);
@@ -130,40 +136,6 @@ namespace CtrlPonto.Controllers
             }
 
             return Json(true, JsonRequestBehavior.AllowGet);
-        }
-
-        private TimeSpan calculaHorasTrabalho(List<Ponto> listPontos)
-        {
-            TimeSpan horasTrabalhadas = new TimeSpan();
-            TimeSpan entrada = new TimeSpan();
-            TimeSpan saida = new TimeSpan();
-
-            foreach (Ponto ponto in listPontos)
-            {
-                if (ponto.Tipo == EnumExtensions.TipoPontoToDescriptionString(TipoPonto.ENTRADA))
-                {
-                    entrada = ponto.Hora.TimeOfDay;
-                    continue;
-                }
-                else { saida = ponto.Hora.TimeOfDay; }
-
-                horasTrabalhadas += saida - entrada;
-            }
-
-            return horasTrabalhadas;
-        }
-
-        private TimeSpan calculaSaldo(Trabalho trabalho)
-        {
-            Config config = Config.getInstance();
-            TimeSpan saldo = trabalho.HorasTrabalho.Subtract(trabalho.Jornada);
-
-            if(saldo <= config.ToleranciaHoraExtra && saldo >= -config.ToleranciaTrabalho)
-            {
-                saldo = new TimeSpan(00, 00, 00);
-            }
-
-            return saldo;
-        }
+        }   
     }
 }

@@ -12,6 +12,6 @@ namespace CtrlPonto.Models.Enuns
         ENTRADA = 1,
 
         [Description("Saída")]
-        SAIDA = 2
+        SAIDA = 0
     }
 }
